@@ -1,0 +1,19 @@
+// Enara Health Services
+// Microsoft Defender XDR - PowerShell Threat Hunt
+//
+// Purpose:
+// Identify PowerShell execution activity and summarize
+// the activity by device and account.
+//
+// Observed project result:
+// 7 PowerShell executions
+// 2 summarized results
+
+DeviceProcessEvents
+| where FileName in~ ("powershell.exe", "pwsh.exe")
+| summarize
+    PowerShellExecutions = count(),
+    FirstSeen = min(Timestamp),
+    LastSeen = max(Timestamp)
+    by DeviceName, AccountName
+| order by PowerShellExecutions desc
