@@ -1,0 +1,21 @@
+// Enara Health Services
+// Microsoft Defender XDR - Cross-Workload Advanced Hunting
+//
+// Purpose:
+// Review available security telemetry across Endpoint, Email,
+// Cloud Apps, and Identity workloads.
+//
+// Observed project result:
+// Endpoint: 33
+// Email: 2
+// Cloud Apps: 0
+// Identity: 0
+// Total: 35
+
+union isfuzzy=true
+    DeviceEvents,
+    EmailEvents,
+    CloudAppEvents,
+    IdentityLogonEvents
+| summarize EventCount = count() by SourceTable = $table
+| order by EventCount desc
